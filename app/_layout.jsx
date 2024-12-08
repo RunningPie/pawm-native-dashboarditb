@@ -1,25 +1,28 @@
 // Importing global CSS
 import "../global.css"
-import { SplashScreen, Stack } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
+import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { Text } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
-  const [fontsLoaded, error] = useFonts({
+  const [fontsLoaded] = useFonts({
     "SpaceMono-Regular": require("../assets/fonts/SpaceMono-Regular.ttf")
   });
 
-  useEffect (() => {
-    if (error) throw error;
+  useEffect(() => {
     if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-    if (!fontsLoaded && !error) {
-      return null;
-    }
-  }, [fontsLoaded, error]);
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
 
   return (
     <Stack>
