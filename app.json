@@ -8,11 +8,6 @@
     "scheme": "DashboardITB",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/images/splashdummy.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
-    },
     "ios": {
       "supportsTablet": true
     },
