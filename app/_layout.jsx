@@ -1,7 +1,7 @@
 // Importing global CSS
 import "../global.css"
 import * as SplashScreen from 'expo-splash-screen';
-import { Stack } from "expo-router";
+import { Stack, Link } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { Text } from "react-native";

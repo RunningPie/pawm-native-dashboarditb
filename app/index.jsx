@@ -18,6 +18,7 @@ export default function Index() {
             />
             <Text className="text-4xl color-white font-pop_bold">ITB </Text>
             <Text className="text-4xl color-white font-pop_italic">Dashboard</Text>
+            <Link href="onboarding_1" style={{ color: "blue"}}>Go to</Link>
           </View>
         </ScrollView>
       {/* </LinearGradient> */}
