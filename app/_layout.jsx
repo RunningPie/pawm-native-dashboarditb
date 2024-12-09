@@ -1,10 +1,11 @@
 // Importing global CSS
-import "../global.css";
-import { Stack } from "expo-router";
+import "../global.css"
+import * as SplashScreen from 'expo-splash-screen';
+import { Stack, Link } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
 import { Text } from "react-native";
-import SplashScreen from "./components/SplashScreen";
+// import SplashScreen from "./components/SplashScreen";
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({
