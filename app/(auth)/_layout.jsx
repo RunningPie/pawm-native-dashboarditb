@@ -5,7 +5,7 @@ import React from 'react'
 const AuthLayout = () => {
   return (
     <Stack>
-      <Stack.Screen name="onboarding_1" options={{ headerShown: false }} />;
+      <Stack.Screen name="login" options={{ headerShown: false }} />;
     </Stack>
   )
 }
