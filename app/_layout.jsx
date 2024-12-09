@@ -1,12 +1,10 @@
 // Importing global CSS
-import "../global.css"
-import * as SplashScreen from 'expo-splash-screen';
+import "../global.css";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Text } from "react-native";
-
-SplashScreen.preventAutoHideAsync();
+import SplashScreen from "./components/SplashScreen";
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({
@@ -21,22 +19,24 @@ const RootLayout = () => {
     "Poppins-Italic": require("../assets/fonts/Poppins/Poppins-Italic.ttf"),
   });
 
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  const [animationCompleted, setAnimationComplete] = useState(false);
 
-  if (!fontsLoaded) {
-    return null;
+  // Wait for fonts and animation to complete before rendering the stack
+  if (!fontsLoaded || !animationCompleted) {
+    return (
+      <SplashScreen
+        isVisible={!animationCompleted}
+        onFinish={() => setAnimationComplete(true)} // State updated only when animation finishes
+      />
+    );
   }
 
-
+  // Render the main app after splash screen and fonts are ready
   return (
     <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />;
+      <Stack.Screen name="index" options={{ headerShown: false }} />
     </Stack>
-  )
-}
+  );
+};
 
 export default RootLayout;

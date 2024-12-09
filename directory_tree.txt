@@ -1,14 +1,133 @@
 ```
-RunningPie/pawm-native-dashboarditb
+📦 
 ├─ .gitignore
 ├─ LICENSE
 ├─ README.md
+├─ android
+│  ├─ .gitignore
+│  ├─ app
+│  │  ├─ build.gradle
+│  │  ├─ debug.keystore
+│  │  ├─ proguard-rules.pro
+│  │  └─ src
+│  │     ├─ debug
+│  │     │  └─ AndroidManifest.xml
+│  │     └─ main
+│  │        ├─ AndroidManifest.xml
+│  │        ├─ java
+│  │        │  └─ com
+│  │        │     └─ damadd
+│  │        │        └─ DashboardITB
+│  │        │           ├─ MainActivity.kt
+│  │        │           └─ MainApplication.kt
+│  │        └─ res
+│  │           ├─ drawable-hdpi
+│  │           │  └─ splashscreen_logo.png
+│  │           ├─ drawable-mdpi
+│  │           │  └─ splashscreen_logo.png
+│  │           ├─ drawable-xhdpi
+│  │           │  └─ splashscreen_logo.png
+│  │           ├─ drawable-xxhdpi
+│  │           │  └─ splashscreen_logo.png
+│  │           ├─ drawable-xxxhdpi
+│  │           │  └─ splashscreen_logo.png
+│  │           ├─ drawable
+│  │           │  ├─ ic_launcher_background.xml
+│  │           │  └─ rn_edit_text_material.xml
+│  │           ├─ mipmap-anydpi-v26
+│  │           │  ├─ ic_launcher.xml
+│  │           │  └─ ic_launcher_round.xml
+│  │           ├─ mipmap-hdpi
+│  │           │  ├─ ic_launcher.webp
+│  │           │  ├─ ic_launcher_foreground.webp
+│  │           │  └─ ic_launcher_round.webp
+│  │           ├─ mipmap-mdpi
+│  │           │  ├─ ic_launcher.webp
+│  │           │  ├─ ic_launcher_foreground.webp
+│  │           │  └─ ic_launcher_round.webp
+│  │           ├─ mipmap-xhdpi
+│  │           │  ├─ ic_launcher.webp
+│  │           │  ├─ ic_launcher_foreground.webp
+│  │           │  └─ ic_launcher_round.webp
+│  │           ├─ mipmap-xxhdpi
+│  │           │  ├─ ic_launcher.webp
+│  │           │  ├─ ic_launcher_foreground.webp
+│  │           │  └─ ic_launcher_round.webp
+│  │           ├─ mipmap-xxxhdpi
+│  │           │  ├─ ic_launcher.webp
+│  │           │  ├─ ic_launcher_foreground.webp
+│  │           │  └─ ic_launcher_round.webp
+│  │           ├─ values-night
+│  │           │  └─ colors.xml
+│  │           └─ values
+│  │              ├─ colors.xml
+│  │              ├─ strings.xml
+│  │              └─ styles.xml
+│  ├─ build.gradle
+│  ├─ gradle.properties
+│  ├─ gradle
+│  │  └─ wrapper
+│  │     ├─ gradle-wrapper.jar
+│  │     └─ gradle-wrapper.properties
+│  ├─ gradlew
+│  ├─ gradlew.bat
+│  └─ settings.gradle
 ├─ app.json
 ├─ app
-│  ├─ _layout.tsx
-│  └─ index.tsx
+│  ├─ (auth)
+│  │  ├─ _layout.jsx
+│  │  ├─ login.jsx
+│  │  └─ register.jsx
+│  ├─ (tabs)
+│  │  ├─ _layout.jsx
+│  │  ├─ dashboard.jsx
+│  │  ├─ mata_kuliah
+│  │  │  ├─ matematika.jsx
+│  │  │  └─ pengkom.jsx
+│  │  └─ riwayat.jsx
+│  ├─ _layout.jsx
+│  ├─ detail
+│  │  └─ pengkom.jsx
+│  ├─ index.jsx
+│  └─ quiz
+│     └─ pengkom.jsx
 ├─ assets
 │  ├─ fonts
+│  │  ├─ Karla
+│  │  │  ├─ Karla-Bold.ttf
+│  │  │  ├─ Karla-BoldItalic.ttf
+│  │  │  ├─ Karla-ExtraBold.ttf
+│  │  │  ├─ Karla-ExtraBoldItalic.ttf
+│  │  │  ├─ Karla-ExtraLight.ttf
+│  │  │  ├─ Karla-ExtraLightItalic.ttf
+│  │  │  ├─ Karla-Italic.ttf
+│  │  │  ├─ Karla-Light.ttf
+│  │  │  ├─ Karla-LightItalic.ttf
+│  │  │  ├─ Karla-Medium.ttf
+│  │  │  ├─ Karla-MediumItalic.ttf
+│  │  │  ├─ Karla-Regular.ttf
+│  │  │  ├─ Karla-SemiBold.ttf
+│  │  │  └─ Karla-SemiBoldItalic.ttf
+│  │  ├─ Poppins
+│  │  │  ├─ OFL.txt
+│  │  │  ├─ Poppins-Black.ttf
+│  │  │  ├─ Poppins-BlackItalic.ttf
+│  │  │  ├─ Poppins-Bold.ttf
+│  │  │  ├─ Poppins-BoldItalic.ttf
+│  │  │  ├─ Poppins-ExtraBold.ttf
+│  │  │  ├─ Poppins-ExtraBoldItalic.ttf
+│  │  │  ├─ Poppins-ExtraLight.ttf
+│  │  │  ├─ Poppins-ExtraLightItalic.ttf
+│  │  │  ├─ Poppins-Italic.ttf
+│  │  │  ├─ Poppins-Light.ttf
+│  │  │  ├─ Poppins-LightItalic.ttf
+│  │  │  ├─ Poppins-Medium.ttf
+│  │  │  ├─ Poppins-MediumItalic.ttf
+│  │  │  ├─ Poppins-Regular.ttf
+│  │  │  ├─ Poppins-SemiBold.ttf
+│  │  │  ├─ Poppins-SemiBoldItalic.ttf
+│  │  │  ├─ Poppins-Thin.ttf
+│  │  │  └─ Poppins-ThinItalic.ttf
 │  │  └─ SpaceMono-Regular.ttf
 │  └─ images
 │     ├─ adaptive-icon.png
@@ -18,9 +137,18 @@ RunningPie/pawm-native-dashboarditb
 │     ├─ react-logo.png
 │     ├─ react-logo@2x.png
 │     ├─ react-logo@3x.png
-│     └─ splash-icon.png
+│     ├─ splash-icon.png
+│     ├─ splashdummy.png
+│     └─ whitelogo.png
+├─ babel.config.js
+├─ directory_tree.txt
+├─ eas.json
+├─ global.css
+├─ metro.config.js
+├─ nativewind-env.d.ts
 ├─ package-lock.json
 ├─ package.json
+├─ tailwind.config.js
 └─ tsconfig.json
 ```
 ©generated by [Project Tree Generator](https://woochanleee.github.io/project-tree-generator)
