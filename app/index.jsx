@@ -1,15 +1,15 @@
 import { ScrollView, Text, View, Image } from "react-native";
 import { Link } from "expo-router";
-// import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   return (
     <SafeAreaView className="h-full">
-      {/* <LinearGradient
+      <LinearGradient
         colors={['#0A2D41', '#2E5C76']}
         style={{ flex: 1 }}
-      > */}
+      >
         <ScrollView contentContainerStyle={{ height: '100%' }}>
           <View className="flex flex-row w-full justify-center items-center h-full px-4 py-10">
             <Image
@@ -21,7 +21,7 @@ export default function Index() {
             <Link href="onboarding_1" style={{ color: "blue"}}>Go to</Link>
           </View>
         </ScrollView>
-      {/* </LinearGradient> */}
+      </LinearGradient>
     </SafeAreaView>
   );
 }
