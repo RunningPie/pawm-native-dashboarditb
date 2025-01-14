@@ -9,12 +9,14 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "package": "com.pawm.dashboarditb"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/appicon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "package": "com.pawm.dashboarditb"
       },
       "package": "com.damadd.DashboardITB"
     },
