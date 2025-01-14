@@ -3,75 +3,6 @@
 ├─ .gitignore
 ├─ LICENSE
 ├─ README.md
-├─ android
-│  ├─ .gitignore
-│  ├─ app
-│  │  ├─ build.gradle
-│  │  ├─ debug.keystore
-│  │  ├─ proguard-rules.pro
-│  │  └─ src
-│  │     ├─ debug
-│  │     │  └─ AndroidManifest.xml
-│  │     └─ main
-│  │        ├─ AndroidManifest.xml
-│  │        ├─ java
-│  │        │  └─ com
-│  │        │     └─ damadd
-│  │        │        └─ DashboardITB
-│  │        │           ├─ MainActivity.kt
-│  │        │           └─ MainApplication.kt
-│  │        └─ res
-│  │           ├─ drawable-hdpi
-│  │           │  └─ splashscreen_logo.png
-│  │           ├─ drawable-mdpi
-│  │           │  └─ splashscreen_logo.png
-│  │           ├─ drawable-xhdpi
-│  │           │  └─ splashscreen_logo.png
-│  │           ├─ drawable-xxhdpi
-│  │           │  └─ splashscreen_logo.png
-│  │           ├─ drawable-xxxhdpi
-│  │           │  └─ splashscreen_logo.png
-│  │           ├─ drawable
-│  │           │  ├─ ic_launcher_background.xml
-│  │           │  └─ rn_edit_text_material.xml
-│  │           ├─ mipmap-anydpi-v26
-│  │           │  ├─ ic_launcher.xml
-│  │           │  └─ ic_launcher_round.xml
-│  │           ├─ mipmap-hdpi
-│  │           │  ├─ ic_launcher.webp
-│  │           │  ├─ ic_launcher_foreground.webp
-│  │           │  └─ ic_launcher_round.webp
-│  │           ├─ mipmap-mdpi
-│  │           │  ├─ ic_launcher.webp
-│  │           │  ├─ ic_launcher_foreground.webp
-│  │           │  └─ ic_launcher_round.webp
-│  │           ├─ mipmap-xhdpi
-│  │           │  ├─ ic_launcher.webp
-│  │           │  ├─ ic_launcher_foreground.webp
-│  │           │  └─ ic_launcher_round.webp
-│  │           ├─ mipmap-xxhdpi
-│  │           │  ├─ ic_launcher.webp
-│  │           │  ├─ ic_launcher_foreground.webp
-│  │           │  └─ ic_launcher_round.webp
-│  │           ├─ mipmap-xxxhdpi
-│  │           │  ├─ ic_launcher.webp
-│  │           │  ├─ ic_launcher_foreground.webp
-│  │           │  └─ ic_launcher_round.webp
-│  │           ├─ values-night
-│  │           │  └─ colors.xml
-│  │           └─ values
-│  │              ├─ colors.xml
-│  │              ├─ strings.xml
-│  │              └─ styles.xml
-│  ├─ build.gradle
-│  ├─ gradle.properties
-│  ├─ gradle
-│  │  └─ wrapper
-│  │     ├─ gradle-wrapper.jar
-│  │     └─ gradle-wrapper.properties
-│  ├─ gradlew
-│  ├─ gradlew.bat
-│  └─ settings.gradle
 ├─ app.json
 ├─ app
 │  ├─ (auth)
@@ -86,9 +17,14 @@
 │  │  │  └─ pengkom.jsx
 │  │  └─ riwayat.jsx
 │  ├─ _layout.jsx
+│  ├─ components
+│  │  └─ SplashScreen.jsx
 │  ├─ detail
 │  │  └─ pengkom.jsx
 │  ├─ index.jsx
+│  ├─ onboarding_1.jsx
+│  ├─ onboarding_2.jsx
+│  ├─ onboarding_3.jsx
 │  └─ quiz
 │     └─ pengkom.jsx
 ├─ assets
@@ -129,17 +65,29 @@
 │  │  │  ├─ Poppins-Thin.ttf
 │  │  │  └─ Poppins-ThinItalic.ttf
 │  │  └─ SpaceMono-Regular.ttf
-│  └─ images
-│     ├─ adaptive-icon.png
-│     ├─ favicon.png
-│     ├─ icon.png
-│     ├─ partial-react-logo.png
-│     ├─ react-logo.png
-│     ├─ react-logo@2x.png
-│     ├─ react-logo@3x.png
-│     ├─ splash-icon.png
-│     ├─ splashdummy.png
-│     └─ whitelogo.png
+│  ├─ images
+│  │  ├─ adaptive-icon.png
+│  │  ├─ appicon.png
+│  │  ├─ arrowon.png
+│  │  ├─ dummygif.png
+│  │  ├─ favicon.png
+│  │  ├─ login.png
+│  │  ├─ login2.png
+│  │  ├─ logowithname.png
+│  │  ├─ logowithname2.png
+│  │  ├─ partial-react-logo.png
+│  │  ├─ photo1.png
+│  │  ├─ photo2.png
+│  │  ├─ photo3.png
+│  │  ├─ react-logo.png
+│  │  ├─ react-logo@2x.png
+│  │  ├─ react-logo@3x.png
+│  │  ├─ splash-icon.png
+│  │  ├─ splashdummy.png
+│  │  └─ whitelogo.png
+│  └─ lottie_files
+│     ├─ lottie-animation.json
+│     └─ lottie-splash.json
 ├─ babel.config.js
 ├─ directory_tree.txt
 ├─ eas.json
