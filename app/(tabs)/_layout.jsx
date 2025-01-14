@@ -6,6 +6,11 @@ const TabsLayout = () => {
     <Tabs>
       <Tabs.Screen
         name="dashboard"
+        options={{ headerShown: false }}
+      />
+      <Tabs.Screen
+        name="riwayat"
+        options={{ headerShown: false }}
       />
     </Tabs>
   )

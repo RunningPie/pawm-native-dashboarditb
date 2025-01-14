@@ -1,22 +1,35 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Alert } from 'react-native'
 import { Redirect, router } from "expo-router";
 import { createUser } from "../../lib/appwrite"
 import { React, useState } from 'react'
 
 // INI FE SEMENTARA, NANTI GANTI AJA
 const Register = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!email || !password || !username) {
-      alert('Please fill in all fields');
+      Alert.alert('Please fill in all fields');
       return;
     }
-    // Pass input values to your `createUser` function
+
+    setIsSubmitting(true);
+
     console.log(username, email, password);
-    createUser(username, email, password);
+
+    try {
+      createUser(username, email, password);
+
+      router.replace('/dashboard');
+    } catch (error) {
+      Alert.alert('Error registering user', error.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
