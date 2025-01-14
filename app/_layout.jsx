@@ -6,6 +6,7 @@ import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
 import { Text } from "react-native";
 import SplashScreen from "./components/SplashScreen";
+import GlobalProvider from "../context/GlobalProvider";
 
 const RootLayout = () => {
   const [fontsLoaded] = useFonts({
@@ -34,11 +35,13 @@ const RootLayout = () => {
 
   // Render the main app after splash screen and fonts are ready
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="onboarding_2" options={{ headerShown: false }} />
-      <Stack.Screen name="onboarding_3" options={{ headerShown: false }} />
-    </Stack>
+    <GlobalProvider>  
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="onboarding_2" options={{ headerShown: false }} />
+        <Stack.Screen name="onboarding_3" options={{ headerShown: false }} />
+      </Stack>
+    </GlobalProvider>
   );
 };
 

@@ -2,8 +2,15 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Redirect, router } from "expo-router";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 export default function Onboarding() {
+  const {isLoading, isLoggedIn} = useGlobalContext();
+
+  console.log(isLoading, isLoggedIn);
+
+  if (!isLoading && isLoggedIn) return <Redirect href="/dashboard" />;
+
   return (
     <LinearGradient
       colors={['#0A2D41', '#2E5C76']} // Warna gradien
