@@ -9,7 +9,7 @@ const TabsLayout = () => {
         options={{ headerShown: false }}
       />
       <Tabs.Screen
-        name="riwayat"
+        name="history"
         options={{ headerShown: false }}
       />
     </Tabs>

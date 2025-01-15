@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Riwayat = () => {
+const History = () => {
   return (
     <View>
-      <Text>Riwayat</Text>
+      <Text>History</Text>
     </View>
   )
 }
 
-export default Riwayat
+export default History
 
 const styles = StyleSheet.create({})
