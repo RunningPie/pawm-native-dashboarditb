@@ -6,13 +6,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#161622" // nanti ganti sesuai primary & secondary colors di figma
+        primary: {
+          DEFAULT: "#468FE5",
+          "dark": "#0A2D41",
+          "secondary": "#2E5C76",
+        } // nanti ganti sesuai primary & secondary colors di figma
       },
       gradientColorStops: {
         gradientStart: "#65B4BB",
-        gradientEnd: "#04707A"
+        gradientEnd: "#04707A",
       },
-      black: { // sesuaikan aja blacknya nanti :D
+      black: {
+        // sesuaikan aja blacknya nanti :D
         DEFAULT: "#000",
         100: "#1E1E2D",
         200: "#232533",
@@ -22,17 +27,17 @@ module.exports = {
       // ini juga nanti perlu sesuaikan
       // formatnya: <nama-variabel>: [<nama font yang dibuat di useFonts>, <typeface>]
       smregular: ["SpaceMono-Regular", "sans-serif"],
-      karla_bold: ["Karla-Bold", "sans-serif"],
-      karla_regular: ["Karla-Regular", "sans-serif"],
-      karla_medium: ["Karla-Medium", "sans-serif"],
-      karla_semibold: ["Karla-SemiBold", "sans-serif"],
-      karla_light: ["Karla-Light", "sans-serif"],
-      karla_italic: ["Karla-Italic", "sans-serif"],
-      pop_black: ["Poppins-Black", "sans-serif"],
-      pop_bold: ["Poppins-Bold", "sans-serif"],
-      pop_extrabold: ["Poppins-ExtraBold", "sans-serif"],
-      pop_italic: ["Poppins-Italic", "sans-serif"],
-    }
+      "karla-bold": ["Karla-Bold", "sans-serif"],
+      "karla-regular": ["Karla-Regular", "sans-serif"],
+      "karla-medium": ["Karla-Medium", "sans-serif"],
+      "karla-semibold": ["Karla-SemiBold", "sans-serif"],
+      "karla-light": ["Karla-Light", "sans-serif"],
+      "karla-italic": ["Karla-Italic", "sans-serif"],
+      "pop-black": ["Poppins-Black", "sans-serif"],
+      "pop-bold": ["Poppins-Bold", "sans-serif"],
+      "pop-extra-bold": ["Poppins-ExtraBold", "sans-serif"],
+      "pop-italic": ["Poppins-Italic", "sans-serif"],
+    },
   },
   plugins: [],
-}
+};

@@ -7,16 +7,14 @@
     "icon": "./assets/images/appicon.png",
     "scheme": "DashboardITB",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
-      "supportsTablet": true,
-      "package": "com.pawm.dashboarditb"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/appicon.png",
-        "backgroundColor": "#ffffff",
-        "package": "com.pawm.dashboarditb"
+        "backgroundColor": "#ffffff"
       },
       "package": "com.damadd.DashboardITB"
     },
