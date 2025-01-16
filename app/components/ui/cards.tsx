@@ -117,9 +117,9 @@ export const QuizCardVertical = ({
           <Progress value={35} className="w-2/3 h-2 bg-orange-200" />
           <Text className="text-orange-500 text-xs mt-1">35%</Text>
         </View>
-        <View className="flex-row gap-2">
-          <TimerReset size={20} color="black" className="mt-2" />
-          <Text className="text-black font-karla-medium mt-1">
+        <View className="flex-row gap-2 mt-2">
+          <TimerReset size={18} color="black" className="mt-3" />
+          <Text className="text-black font-karla-medium ">
             {length} Minutes
           </Text>
         </View>
