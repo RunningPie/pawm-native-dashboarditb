@@ -3,22 +3,32 @@ import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { usePathname } from 'expo-router'
 import HorizontalScroll from '../components/HorizontalScroll'
-import { getAllCourses } from '../../lib/appwrite'
+import { getAllContent, signOut } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 
 const Dashboard = () => {
 
-  const { data: courses, refetch } = useAppwrite(getAllCourses);
+  const { data: courses, refetchCourses } = useAppwrite(getAllContent, "courses");
+  const { data: quizzes, refetchQuizzes } = useAppwrite(getAllContent, "quizzes");
+  const { data: tests, refetchTests } = useAppwrite(getAllContent, "tests");
 
-  console.log(courses);
+  console.log("Courses: ", courses);
+  console.log("Quizzes: ", quizzes);
+  console.log("Tests: ", tests);
 
   // Variabel buat handle refresh
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetch();
+    await refetchCourses();
+    await refetchQuizzes();
+    await refetchTests();
     setRefreshing(false);
+  }
+
+  const handleLogout = async () => {
+    signOut();
   }
 
   // Ini variable punyanya search bar (component)
@@ -28,6 +38,11 @@ const Dashboard = () => {
   return (
     <SafeAreaView>
       <Text>Dashboard</Text>
+      <TouchableOpacity
+        onPress={ handleLogout }
+      >
+        <Text>Logout</Text> 
+      </TouchableOpacity>
 
       {/* Ini ngikutin tutorial dulu hehe */}
       {/* Harusnya gaperlu flatlist yg vertical sih
@@ -36,22 +51,6 @@ const Dashboard = () => {
           ~ Dama
       */}
       <FlatList
-        // data={[
-        //   { id: '1', title: 'Item 1' },
-        //   { id: '2', title: 'Item 2' },
-        //   { id: '3', title: 'Item 3' },
-        //   // Add more items here
-        // ]}
-        data={courses}
-        keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => (
-          <View>
-            {/* ini masih belum muncul cover_imagenya gatau kenapa wkwkwk */}
-            {/* tapi datanya udah keload kok, bisa liat di console log */}
-            <Image source={{ uri: item.cover_image }} resizeMode='contain' />
-            <Text>{item.course_title}</Text>
-          </View>
-        )}        
 
         // Ini semua dirender di atas data
         // Bisa diganti pake header component dan langsung dirender di atas flatlistnya aja
@@ -81,17 +80,35 @@ const Dashboard = () => {
               {/* Ini komponen horizontal scroll aku buat dulu, buat bantu visualisasiin backend */}
               {/* Nanti kalo ga kepake, ganti aja */}
               <HorizontalScroll 
-                items={ [ {id: 1}, {id: 2}, {id:3} ] ?? [] }
+                contents={ courses ?? [] }
+                contentType={ "courses" }
+              />
+            </View>
+
+            <View>
+              <Text>
+                Quizzes
+              </Text>
+              {/* Ini komponen horizontal scroll aku buat dulu, buat bantu visualisasiin backend */}
+              {/* Nanti kalo ga kepake, ganti aja */}
+              <HorizontalScroll 
+                contents={ quizzes ?? [] }
+                contentType={ "quizzes" }
+              />
+            </View>
+
+            <View>
+              <Text>
+                Tests
+              </Text>
+              {/* Ini komponen horizontal scroll aku buat dulu, buat bantu visualisasiin backend */}
+              {/* Nanti kalo ga kepake, ganti aja */}
+              <HorizontalScroll 
+                contents={ tests ?? [] }
+                contentType={ "tests" }
               />
             </View>
           </View>
-        )}
-
-        // Dalam kasus ga ada data course
-        ListEmptyComponent={() => (
-          // Kalo niat bikin ini jadi component bagus sih :D
-          // tapi kan data kita udh diseeding ya, jadi hrsnya gaada kasus empty list
-          <Text>No data available</Text>
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
