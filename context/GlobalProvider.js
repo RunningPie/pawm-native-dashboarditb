@@ -30,6 +30,10 @@ const GlobalProvider = ({ children }) => {
             setIsLoading(false);
         });
     }, []);
+
+    console.log("GlobalProvider isLoggedIn", isLoggedIn);
+    console.log("GlobalProvider user", user);
+    console.log("GlobalProvider isLoading", isLoading);
     
     return (
         <GlobalContext.Provider

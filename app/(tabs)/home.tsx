@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, ForwardedRef } from "react";
+import React, { useState, useEffect, forwardRef, ForwardedRef } from "react";
 import {
   View,
   Text,
@@ -31,6 +31,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { getAllContent, signOut } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const CourseCard = ({
   image,
@@ -173,6 +174,10 @@ const TestCard = ({
 const PAGE_WIDTH = Dimensions.get("window").width;
 
 export default function Home() {
+  const { user, isLoggedIn } = useGlobalContext();
+
+  console.log("Current logged in user: ", user);
+
   const { data: courses, isLoading: isLoadingCourses, refetch: refetchCourses } = useAppwrite(getAllContent, "courses");
   // const { data: quizzes, refetchQuizzes } = useAppwrite(getAllContent, "quizzes");
   // const { data: tests, refetchTests } = useAppwrite(getAllContent, "tests");
@@ -186,17 +191,17 @@ export default function Home() {
   const router = useRouter();
   const [showDrawer, setShowDrawer] = useState(false);
 
-  const resetOnboarding = async () => {
-    try {
-      await AsyncStorage.removeItem("hasOnboarded");
-      router.navigate("/(auth)/onboarding");
-    } catch (error) {
-      console.error("Error resetting onboarding:", error);
-    }
-  };
+  // const resetOnboarding = async () => {
+  //   try {
+  //     await AsyncStorage.removeItem("hasOnboarded");
+  //     router.navigate("/(auth)/onboarding");
+  //   } catch (error) {
+  //     console.error("Error resetting onboarding:", error);
+  //   }
+  // };
 
   // Function to map course title to icon
-  const getIconForCourse = (title) => {
+  const getIconForCourse = (title: string): React.ComponentType<IconProps> => {
     switch (title) {
       case "Berpikir Komputasional":
         return CertificateLight;
@@ -214,6 +219,7 @@ export default function Home() {
   // Map the queried courses to match the frontend structure
   useEffect(() => {
     if (courses && !isLoadingCourses) {
+      console.log("Courses before mapping:", courses);
       const mappedCourses = courses.map((course) => ({
         id: course.$id, // Use the $id from the database response
         term: course.semester, // Map the semester to 'term'
@@ -222,7 +228,9 @@ export default function Home() {
         title: course.course_title, // Use course_title as the title
         icon: getIconForCourse(course.course_title), // You can map icons as needed
         image: { uri: course.cover_image }, // Use the cover image URL from the database
+        progress: 0
       }));
+      console.log("Mapped courses:", mappedCourses);
       setPopularCourses(mappedCourses);
     }
   }, [courses, isLoadingCourses]);
@@ -313,8 +321,10 @@ export default function Home() {
       <Header
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
-        userName="Thalita Zahra Sutejo"
-        userRole="STEI-K ITB"
+        userName={user.nickname ? user.nickname : user.email}
+        // userName="Thalita"
+        userRole={user.faculty ? user.faculty : "Student"}
+        // userRole="STEI ITB"
         userImage={require("../../assets/images/ProfilePic.png")}
         drawerContent={drawerContent}
       />
@@ -328,7 +338,8 @@ export default function Home() {
             style={styles.header}
           >
             <Text className="text-2xl font-karla-bold text-white px-6">
-              Welcome Back, Thalita!
+              Welcome Back, {user.nickname ? user.nickname : user.email}!
+              {/* Welcome Back, Thalita! */}
             </Text>
             <Text className="text-sm font-karla-regular text-white px-6 pr-32">
               Yuk, latihan dan lancarkan kompetensimu di Mata Kuliah Tahap
@@ -413,7 +424,7 @@ export default function Home() {
             <Carousel
               width={PAGE_WIDTH / 1.7} // Adjust fraction for how many cards per view (e.g., /2, /3, etc.)
               height={220}
-              data={courses}
+              data={popularCourses}
               renderItem={({ item }) => (
                 <View className="mx-2">
                   <CourseCard

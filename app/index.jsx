@@ -2,10 +2,15 @@ import React, { useEffect } from "react";
 import { View, ActivityIndicator } from "react-native";
 import { Redirect } from "expo-router";
 import { useRootNavigationState } from "expo-router";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 export default function Home() {
   const rootNavigationState = useRootNavigationState();
   const isFullyLoaded = rootNavigationState?.key;
+
+  const { user, isLoggedIn } = useGlobalContext();
+
+  if (!user || !isLoggedIn) return <Redirect href="/(auth)/onboarding" />;
 
   if (!isFullyLoaded) {
     return (

@@ -1,20 +1,17 @@
 import "../global.css";
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   View,
-  TouchableOpacity,
-  Text,
   ActivityIndicator,
   Platform,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Onboarding from "./(auth)/onboarding";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
+import GlobalProvider, { useGlobalContext } from "../context/GlobalProvider"; // Adjust path if necessary
 
-const RootLayout = () => {
+const RootLayoutContent = () => {
   const [fontsLoaded] = useFonts({
     "SpaceMono-Regular": require("../assets/fonts/SpaceMono-Regular.ttf"),
     "Karla-Bold": require("../assets/fonts/Karla/Karla-Bold.ttf"),
@@ -26,35 +23,10 @@ const RootLayout = () => {
     "Poppins-Bold": require("../assets/fonts/Poppins/Poppins-Bold.ttf"),
     "Poppins-Italic": require("../assets/fonts/Poppins/Poppins-Italic.ttf"),
   });
-  const [isFirstVisit, setIsFirstVisit] = useState<boolean | null>(null);
-  const [isCheckingFirstVisit, setIsCheckingFirstVisit] = useState(true);
 
-  useEffect(() => {
-    const checkFirstVisit = async () => {
-      try {
-        const hasVisited = await AsyncStorage.getItem("hasVisited");
-        setIsFirstVisit(hasVisited === null);
-      } catch (error) {
-        console.error("Error reading AsyncStorage:", error);
-        setIsFirstVisit(false);
-      } finally {
-        setIsCheckingFirstVisit(false);
-      }
-    };
+  const { isLoading, isLoggedIn } = useGlobalContext();
 
-    checkFirstVisit();
-  }, []);
-
-  const handleOnboardingComplete  = async () => {
-    try {
-      await AsyncStorage.setItem("hasVisited", "true");
-      setIsFirstVisit(false);
-    } catch (error) {
-      console.error("Error setting AsyncStorage:", error);
-    }
-  };
-
-  if (!fontsLoaded || isCheckingFirstVisit) {
+  if (!fontsLoaded || isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
@@ -63,6 +35,23 @@ const RootLayout = () => {
   }
 
   return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        statusBarTranslucent: true,
+        statusBarStyle: "light",
+        headerStyle: {
+          backgroundColor: "transparent",
+        },
+      }}
+    >
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
+  );
+};
+
+const RootLayout = () => {
+  return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar
         style="light"
@@ -70,26 +59,10 @@ const RootLayout = () => {
         backgroundColor="transparent"
         hidden={Platform.OS === "android"}
       />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          statusBarTranslucent: true,
-          statusBarStyle: "light",
-          headerStyle: {
-            backgroundColor: "transparent",
-          },
-        }}
-      >
-        {isFirstVisit ? (
-          <Stack.Screen
-            name="(auth)/onboarding"
-            options={{ presentation: "modal" }}
-            initialParams={{ onFinish: handleOnboardingComplete  }}
-          />
-        ) : (
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        )}
-      </Stack>
+      {/* Wrap content with GlobalProvider */}
+      <GlobalProvider>
+        <RootLayoutContent />
+      </GlobalProvider>
     </GestureHandlerRootView>
   );
 };
