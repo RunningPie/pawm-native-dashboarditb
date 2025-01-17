@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, forwardRef, ForwardedRef } from "react";
 import {
   View,
   Text,
   TextInput,
   Image,
   Dimensions,
+  Pressable,
   StyleSheet,
 } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
@@ -22,11 +23,11 @@ import {
 } from "react-native-heroicons/solid";
 import { BookOpenIcon } from "react-native-heroicons/solid";
 import Progress from "../components/ui/progress";
-import { Pressable, Animated, Easing } from "react-native";
-import { Bars3Icon } from "react-native-heroicons/outline";
 import { Link, useRouter } from "expo-router";
 import { IconProps, IconContainer } from "../components/ui/icon-container";
 import { Header } from "../components/ui/header";
+import { courses } from "../data/mockdata";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { getAllContent, signOut } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
@@ -39,6 +40,7 @@ const CourseCard = ({
   test,
   quiz,
   icon,
+  progress,
 }: {
   image: any;
   id: string;
@@ -47,12 +49,13 @@ const CourseCard = ({
   test: any;
   quiz: number;
   icon: React.ComponentType<IconProps>;
+  progress: number;
 }) => {
   return (
     <View className="bg-white rounded-lg shadow-lg">
       <Link
         href={{
-          pathname: "/(tabs)/course/[id]",
+          pathname: "/(tabs)/(details)/course/[id]",
           params: { id: id },
         }}
         asChild
@@ -83,7 +86,13 @@ const CourseCard = ({
                   {`${quiz} Quiz`}
                 </Text>
               </View>
-              <Progress value={30} className="w-full h-2 mt-2 bg-orange-200" />;
+              <Progress
+                value={progress}
+                className="w-full h-2 mt-2 bg-orange-200"
+              />
+              <Text className="text-orange-500 shadow-lg text-base font-karla-semibold">
+                {`${progress}%`}
+              </Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -92,26 +101,71 @@ const CourseCard = ({
   );
 };
 
-const QuizCard = ({
+interface QuizCardProps {
+  image: any;
+  id: string;
+  title: string;
+  subtitle?: any;
+}
+
+const QuizCard = forwardRef(
+  ({ image, id, title, subtitle }: QuizCardProps, ref: ForwardedRef<View>) => {
+    return (
+      <View ref={ref} className="bg-primary-dark shadow-lg rounded-lg">
+        <Link
+          href={{
+            pathname: "/(tabs)/(details)/quiz/[id]",
+            params: { id: id },
+          }}
+          asChild
+        >
+          <TouchableOpacity className="mr-4 px-4 rounded-xl overflow-hidden w-44 shadow-lg">
+            <Image source={image} className="h-28 w-full" resizeMode="cover" />
+            <View className="p-2">
+              <Text className="text-white shadow-lg font-karla-regular text-base">
+                {subtitle}
+              </Text>
+              <Text className="text-white text-lg font-karla-bold">
+                {title}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </Link>
+      </View>
+    );
+  }
+);
+
+const TestCard = ({
   image,
+  id,
   title,
   subtitle,
 }: {
   image: any;
+  id: string;
   title: string;
   subtitle?: any;
 }) => {
   return (
     <View className="bg-primary-dark shadow-lg rounded-lg">
-      <TouchableOpacity className="mr-4 px-4  rounded-xl overflow-hidden w-44 shadow-lg">
-        <Image source={image} className="h-28 w-full" resizeMode="cover" />
-        <View className="p-2">
-          <Text className="text-white shadow-lg font-karla-regular text-base">
-            {subtitle}
-          </Text>
-          <Text className="text-white text-lg font-karla-bold">{title}</Text>
-        </View>
-      </TouchableOpacity>
+      <Link
+        href={{
+          pathname: "/(tabs)/(details)/test/[id]",
+          params: { id: id },
+        }}
+        asChild
+      >
+        <TouchableOpacity className="mr-4 px-4  rounded-xl overflow-hidden w-44 shadow-lg">
+          <Image source={image} className="h-28 w-full" resizeMode="cover" />
+          <View className="p-2">
+            <Text className="text-white shadow-lg font-karla-regular text-base">
+              {subtitle}
+            </Text>
+            <Text className="text-white text-lg font-karla-bold">{title}</Text>
+          </View>
+        </TouchableOpacity>
+      </Link>
     </View>
   );
 };
@@ -130,6 +184,16 @@ export default function Home() {
   const [popularCourses, setPopularCourses] = useState([]);
 
   const router = useRouter();
+  const [showDrawer, setShowDrawer] = useState(false);
+
+  const resetOnboarding = async () => {
+    try {
+      await AsyncStorage.removeItem("hasOnboarded");
+      router.navigate("/(auth)/onboarding");
+    } catch (error) {
+      console.error("Error resetting onboarding:", error);
+    }
+  };
 
   // Function to map course title to icon
   const getIconForCourse = (title) => {
@@ -163,8 +227,24 @@ export default function Home() {
     }
   }, [courses, isLoadingCourses]);
 
-  const [showDrawer, setShowDrawer] = useState(false);
-  const drawerAnimation = useRef(new Animated.Value(-300)).current;
+  const drawerContent = (
+    <>
+      <Text className="text-lg text-white font-karla-bold mb-4 mt-12">
+        Recent Search
+      </Text>
+      {popularCourses.map((course) => (
+        <Link
+          key={course.id}
+          href={`/(tabs)/(details)/course/${course.id}`}
+          onPress={() => setShowDrawer(false)}
+        >
+          <Text className="text-base text-white font-karla-regular mb-2">
+            {course.title}
+          </Text>
+        </Link>
+      ))}
+    </>
+  );
 
   const [ongoingQuizzes] = useState([
     {
@@ -228,62 +308,16 @@ export default function Home() {
     },
   ]);
 
-  useEffect(() => {
-    Animated.timing(drawerAnimation, {
-      toValue: showDrawer ? 0 : -300,
-      duration: 300,
-      easing: Easing.ease,
-      useNativeDriver: false,
-    }).start();
-  }, [showDrawer]);
-
   return (
     <View className="flex-1">
-      {/* Hamburger Menu */}
-
-      {/* Drawer Overlay */}
-      {showDrawer && (
-        // Fullscreen overlay that closes the drawer on press outside
-        <Pressable
-          onPress={() => setShowDrawer(false)}
-          className="absolute top-0 left-0 w-full h-full z-20"
-        >
-          {/* Drawer container */}
-          <Animated.View
-            style={[
-              {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "75%",
-                height: "100%",
-                transform: [{ translateX: drawerAnimation }],
-              },
-            ]}
-            className=" shadow-xl z-30"
-          >
-            <LinearGradient
-              colors={["#0A2D41", "#2E5C76"]}
-              className="flex-col h-full p-6"
-            >
-              <Text className="text-lg text-white font-karla-bold mb-4">
-                Recent Search
-              </Text>
-              {popularCourses.map((course) => (
-                <Link
-                  key={course.id}
-                  href={`/(auth)/profile`}
-                  onPress={() => setShowDrawer(false)}
-                >
-                  <Text className="text-base text-white font-karla-regular mb-2">
-                    {course.title}
-                  </Text>
-                </Link>
-              ))}
-            </LinearGradient>
-          </Animated.View>
-        </Pressable>
-      )}
+      <Header
+        showDrawer={showDrawer}
+        setShowDrawer={setShowDrawer}
+        userName="Thalita Zahra Sutejo"
+        userRole="STEI-K ITB"
+        userImage={require("../../assets/images/ProfilePic.png")}
+        drawerContent={drawerContent}
+      />
 
       <ScrollView className="flex-1 bg-white ">
         {/* Header */}
@@ -293,13 +327,6 @@ export default function Home() {
             className="flex-col py-20 mb-6"
             style={styles.header}
           >
-            <Header
-              showDrawer={showDrawer}
-              setShowDrawer={setShowDrawer}
-              userName="Thalita Zahra Sutejo"
-              userRole="STEI-K ITB"
-              userImage={require("../../assets/images/ProfilePic.png")}
-            />
             <Text className="text-2xl font-karla-bold text-white px-6">
               Welcome Back, Thalita!
             </Text>
@@ -385,8 +412,8 @@ export default function Home() {
           <View id="carousel-popular">
             <Carousel
               width={PAGE_WIDTH / 1.7} // Adjust fraction for how many cards per view (e.g., /2, /3, etc.)
-              height={200}
-              data={popularCourses}
+              height={220}
+              data={courses}
               renderItem={({ item }) => (
                 <View className="mx-2">
                   <CourseCard
@@ -397,6 +424,7 @@ export default function Home() {
                     test={item.test}
                     quiz={item.quiz}
                     icon={item.icon}
+                    progress={item.progress}
                   />
                 </View>
               )}
@@ -429,11 +457,20 @@ export default function Home() {
               data={ongoingQuizzes}
               renderItem={({ item }) => (
                 <View className="mx-2">
-                  <QuizCard
-                    image={item.image}
-                    title={item.title}
-                    subtitle={item.course}
-                  />
+                  <Link
+                    href={{
+                      pathname: "/(tabs)/(details)/course/[id]",
+                      params: { id: item.id },
+                    }}
+                    asChild
+                  >
+                    <QuizCard
+                      image={item.image}
+                      id={item.id}
+                      title={item.title}
+                      subtitle={item.course}
+                    />
+                  </Link>
                 </View>
               )}
               style={{ width: PAGE_WIDTH }}
@@ -464,8 +501,9 @@ export default function Home() {
               data={ongoingTests}
               renderItem={({ item }) => (
                 <View className="mx-2">
-                  <QuizCard
+                  <TestCard
                     image={item.image}
+                    id={item.id}
                     title={item.title}
                     subtitle={item.course}
                   />

@@ -7,17 +7,18 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useRouter } from "expo-router";
 import { Keyboard } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { EnvelopeIcon } from "react-native-heroicons/solid";
 
 import { signIn } from "../../lib/appwrite"
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const router = useRouter(); // Initialize the router
+  const router = useRouter();
 
   const handleLogin = async () => {
-    if (!username || !password) {
+    if (!email || !password) {
       Alert.alert("Please fill in all fields");
       return;
     }
@@ -25,7 +26,7 @@ const Login = () => {
     console.log("Login button pressed");
     // On successful login, navigate to the main app
     try {
-      await signIn(username, password);
+      await signIn(email, password);
       router.replace("../home"); // Navigate to the 'index' screen
     } catch (error) {
       Alert.alert("Login failed", error.message);
@@ -34,12 +35,11 @@ const Login = () => {
 
   const handleGoogleOAuth = () => {
     console.log("Google OAuth button pressed");
-    // On successful OAuth, navigate to the main app
-    router.replace("../home"); // Navigate to the 'index' screen
+    router.replace("../home");
   };
 
   const handleSignup = () => {
-    router.push("./register"); // Navigate to the 'register' screen
+    router.push("./register");
   };
 
   useEffect(() => {
@@ -100,26 +100,21 @@ const Login = () => {
           )}
         </View>
 
-        {/* username Input */}
+        {/* Email Input */}
         <View className="pb-12">
           <Text className="text-white font-karla-bold text-2xl py-4">
             Welcome!
           </Text>
           <View className="flex-row items-center bg-black/40 px-4 py-3 rounded-lg mb-4">
-            <FontAwesome5
-              name="user-alt"
-              size={16}
-              color="white"
-              className="mr-2"
-            />
+            <EnvelopeIcon size={16} color={"white"}/>
             <TextInput
-              value={username}
-              onChangeText={setUsername}
-              placeholder="Username"
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Email"
               placeholderTextColor="#ccc"
               keyboardType="default" // Use 'default' or 'email-address' if appropriate
               autoCapitalize="none"
-              className="flex-1 text-white"
+              className="flex-1 ml-2 text-white"
             />
           </View>
           {/* Password Input */}

@@ -15,6 +15,7 @@ export const CourseCardVertical = ({
   quiz,
   icon: Icon,
   id,
+  progress,
 }: {
   image: any;
   title: string;
@@ -23,19 +24,18 @@ export const CourseCardVertical = ({
   quiz?: number;
   icon: React.ComponentType<IconProps>;
   id: string;
+  progress: number;
 }) => {
   const router = useRouter();
   return (
     <Link
       href={{
-        pathname: "/(tabs)/course/[id]",
+        pathname: "/(tabs)/(details)/course/[id]",
         params: { id: id },
       }}
       asChild
     >
-      <TouchableOpacity
-        className="bg-white rounded-lg shadow-lg flex-row"
-      >
+      <TouchableOpacity className="bg-white rounded-lg shadow-lg flex-row">
         <View className="w-32 h-full">
           <Image
             source={image}
@@ -68,8 +68,8 @@ export const CourseCardVertical = ({
                 {`${quiz} Quiz`}
               </Text>
             </View>
-            <Progress value={35} className="w-2/3 h-2 bg-orange-200" />
-            <Text className="text-orange-500 text-xs mt-1">35%</Text>
+            <Progress value={progress} className="w-2/3 h-2 bg-orange-200" />
+            <Text className="text-orange-500 text-xs mt-1">{progress}%</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -79,52 +79,64 @@ export const CourseCardVertical = ({
 
 export const QuizCardVertical = ({
   image,
+  id,
   title,
   subtitle,
   length,
   Icon,
+  progress,
 }: {
   image: any;
+  id: string;
   title: string;
   length: any;
   subtitle?: any;
   Icon: React.ComponentType<IconProps>;
+  progress: number;
 }) => {
   return (
-    <TouchableOpacity className="bg-white rounded-lg shadow-lg flex-row">
-      <View className="w-32 h-full">
-        <Image
-          source={image}
-          className="h-40 w-full rounded-l-lg"
-          resizeMode="cover"
-        />
-        <View className="border-radius-full absolute bottom-8 left-[275%]">
-          <LinearGradient
-            colors={["#0A2D41", "#2E5C76"]}
-            className="w-10 h-10 rounded-full justify-center items-center border-radius-full"
-            style={styles.verticalgradient}
-          >
-            {Icon && <Icon size={20} color="white" />}
-          </LinearGradient>
+    <Link
+      href={{
+        pathname: "/(tabs)/(details)/quiz/[id]",
+        params: { id: id },
+      }}
+      asChild
+    >
+      <TouchableOpacity className="bg-white rounded-lg shadow-lg flex-row">
+        <View className="w-32 h-full">
+          <Image
+            source={image}
+            className="h-40 w-full rounded-l-lg"
+            resizeMode="cover"
+          />
+          <View className="border-radius-full absolute bottom-8 left-[275%]">
+            <LinearGradient
+              colors={["#0A2D41", "#2E5C76"]}
+              className="w-10 h-10 rounded-full justify-center items-center border-radius-full"
+              style={styles.verticalgradient}
+            >
+              {Icon && <Icon size={20} color="white" />}
+            </LinearGradient>
+          </View>
         </View>
-      </View>
-      <View className="p-4 flex-1">
-        <Text className="text-orange-500 text-base font-karla-semibold">
-          {subtitle}
-        </Text>
-        <Text className="text-black text-xl font-karla-bold">{title}</Text>
-        <View className="mt-2">
-          <Progress value={35} className="w-2/3 h-2 bg-orange-200" />
-          <Text className="text-orange-500 text-xs mt-1">35%</Text>
-        </View>
-        <View className="flex-row gap-2 mt-2">
-          <TimerReset size={18} color="black" className="mt-3" />
-          <Text className="text-black font-karla-medium ">
-            {length} Minutes
+        <View className="p-4 flex-1">
+          <Text className="text-orange-500 text-base font-karla-semibold">
+            {subtitle}
           </Text>
+          <Text className="text-black text-xl font-karla-bold">{title}</Text>
+          <View className="mt-2">
+            <Progress value={progress} className="w-2/3 h-2 bg-orange-200" />
+            <Text className="text-orange-500 text-xs mt-1">{`${progress}%`}</Text>
+          </View>
+          <View className="flex-row gap-2 mt-2">
+            <TimerReset size={18} color="black" className="mt-3" />
+            <Text className="text-black font-karla-medium ">
+              {length} Minutes
+            </Text>
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Link>
   );
 };
 

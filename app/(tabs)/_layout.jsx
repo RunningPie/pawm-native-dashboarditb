@@ -73,7 +73,31 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="(course)/[id]"
+        name="(details)/_layout"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="(details)"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="(details)/course/[id]"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="(details)/quiz/[id]"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="(details)/test/[id]"
         options={{
           href: null,
         }}

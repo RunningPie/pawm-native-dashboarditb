@@ -12,46 +12,9 @@ import {
 } from "~/assets/icons";
 import { SearchBar } from "~/app/components/ui/search-bar";
 import { Header } from "~/app/components/ui/header";
+import { courses } from "~/app/data/mockdata";
 
 const PopularCourses = () => {
-  const [courses] = useState([
-    {
-      id: "1",
-      term: "Semester 1",
-      test: "0",
-      quiz: 2,
-      title: "Berpikir Komputasional",
-      icon: CertificateLight,
-      image: require("../../../assets/images/computational-thinking.png"),
-    },
-    {
-      id: "2",
-      term: "Semester 1",
-      test: "1",
-      quiz: 2,
-      title: "Matematika I",
-      icon: RootLight,
-      image: require("../../../assets/images/math.png"),
-    },
-    {
-      id: "3",
-      term: "Semester 1",
-      test: "1",
-      quiz: 2,
-      title: "Kimia I",
-      icon: FlaskLight,
-      image: require("../../../assets/images/kimia.png"),
-    },
-    {
-      id: "4",
-      term: "Semester 1",
-      test: "1",
-      quiz: 2,
-      title: "Fisika I",
-      icon: AtomLight,
-      image: require("../../../assets/images/fisika.png"),
-    },
-  ]);
 
   const router = useRouter();
 
@@ -64,7 +27,7 @@ const PopularCourses = () => {
       />
       <View className="p-6 mt-16 h-full">
         <View className="flex-row items-center mb-4">
-          <Pressable onPress={() => router.back()}>
+          <Pressable onPress={() => router.push("/home")}>
             <ArrowLeftIcon size={24} color="white" />
           </Pressable>
           <Text className="text-2xl font-karla-bold ml-2 text-white">
@@ -88,6 +51,7 @@ const PopularCourses = () => {
                 quiz={item.quiz}
                 icon={item.icon}
                 id={item.id}
+                progress={item.progress}
               />
             </View>
           )}

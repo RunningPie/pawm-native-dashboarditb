@@ -1,39 +1,19 @@
 import React, { useEffect } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
-import { useRouter } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, ActivityIndicator } from "react-native";
+import { Redirect } from "expo-router";
+import { useRootNavigationState } from "expo-router";
 
-const Home = () => {
-  const router = useRouter();
+export default function Home() {
+  const rootNavigationState = useRootNavigationState();
+  const isFullyLoaded = rootNavigationState?.key;
 
-  useEffect(() => {
-    const checkNavigation = async () => {
-      try {
-        const hasVisited = await AsyncStorage.getItem("hasVisited");
-        if (hasVisited === null) {
-          // First visit; navigate to Onboarding
-          router.replace("/(auth)/onboarding");
-        } else {
-          // Not first visit; navigate to Login
-          router.replace("/(tabs)/home");
-        }
-      } catch (error) {
-        console.error("Error during navigation check:", error);
-        // Optionally, navigate to a fallback screen or handle the error
-      }
-    };
+  if (!isFullyLoaded) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
-    checkNavigation();
-  }, [router]);
-
-  // Display a loading indicator while determining navigation
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>
-        Welcome Back Thalita!
-      </Text>
-    </View>
-  );
-};
-
-export default Home;
+  return <Redirect href="/(tabs)/home" />;
+}
