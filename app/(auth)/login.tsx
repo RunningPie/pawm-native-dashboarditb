@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -8,16 +8,28 @@ import { useRouter } from "expo-router";
 import { Keyboard } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { signIn } from "../../lib/appwrite"
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const router = useRouter(); // Initialize the router
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    if (!username || !password) {
+      Alert.alert("Please fill in all fields");
+      return;
+    }
+
     console.log("Login button pressed");
     // On successful login, navigate to the main app
-    router.replace("../home"); // Navigate to the 'index' screen
+    try {
+      await signIn(username, password);
+      router.replace("../home"); // Navigate to the 'index' screen
+    } catch (error) {
+      Alert.alert("Login failed", error.message);
+    }
   };
 
   const handleGoogleOAuth = () => {

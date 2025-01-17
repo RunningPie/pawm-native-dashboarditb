@@ -28,6 +28,9 @@ import { Link, useRouter } from "expo-router";
 import { IconProps, IconContainer } from "../components/ui/icon-container";
 import { Header } from "../components/ui/header";
 
+import { getAllContent, signOut } from '../../lib/appwrite'
+import useAppwrite from '../../lib/useAppwrite'
+
 const CourseCard = ({
   image,
   id,
@@ -116,46 +119,49 @@ const QuizCard = ({
 const PAGE_WIDTH = Dimensions.get("window").width;
 
 export default function Home() {
+  const { data: courses, isLoading: isLoadingCourses, refetch: refetchCourses } = useAppwrite(getAllContent, "courses");
+  // const { data: quizzes, refetchQuizzes } = useAppwrite(getAllContent, "quizzes");
+  // const { data: tests, refetchTests } = useAppwrite(getAllContent, "tests");
+
+  console.log("Courses: ", courses);
+  // console.log("Quizzes: ", quizzes);
+  // console.log("Tests: ", tests);
+
+  const [popularCourses, setPopularCourses] = useState([]);
+
   const router = useRouter();
 
-  const [popularCourses] = useState([
-    {
-      id: "1",
-      term: "Semester 1",
-      test: "0",
-      quiz: 2,
-      title: "Berpikir Komputasional",
-      icon: CertificateLight,
-      image: require("../../assets/images/computational-thinking.png"),
-    },
-    {
-      id: "2",
-      term: "Semester 1",
-      test: "1",
-      quiz: 2,
-      title: "Matematika I",
-      icon: RootLight,
-      image: require("../../assets/images/math.png"),
-    },
-    {
-      id: "3",
-      term: "Semester 1",
-      test: "1",
-      quiz: 2,
-      title: "Kimia I",
-      icon: FlaskLight,
-      image: require("../../assets/images/kimia.png"),
-    },
-    {
-      id: "4",
-      term: "Semester 1",
-      test: "1",
-      quiz: 2,
-      title: "Fisika I",
-      icon: AtomLight,
-      image: require("../../assets/images/fisika.png"),
-    },
-  ]);
+  // Function to map course title to icon
+  const getIconForCourse = (title) => {
+    switch (title) {
+      case "Berpikir Komputasional":
+        return CertificateLight;
+      case "Matematika I":
+        return RootLight;
+      case "Kimia I":
+        return FlaskLight;
+      case "Fisika I":
+        return AtomLight;
+      default:
+        return CertificateLight; // Default icon if course title doesn't match
+    }
+  };
+  
+  // Map the queried courses to match the frontend structure
+  useEffect(() => {
+    if (courses && !isLoadingCourses) {
+      const mappedCourses = courses.map((course) => ({
+        id: course.$id, // Use the $id from the database response
+        term: course.semester, // Map the semester to 'term'
+        test: String(course.num_of_tests), // Convert num_of_tests to string
+        quiz: course.num_of_quizzes, // Use num_of_quizzes directly
+        title: course.course_title, // Use course_title as the title
+        icon: getIconForCourse(course.course_title), // You can map icons as needed
+        image: { uri: course.cover_image }, // Use the cover image URL from the database
+      }));
+      setPopularCourses(mappedCourses);
+    }
+  }, [courses, isLoadingCourses]);
 
   const [showDrawer, setShowDrawer] = useState(false);
   const drawerAnimation = useRef(new Animated.Value(-300)).current;

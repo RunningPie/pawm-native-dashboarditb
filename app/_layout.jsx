@@ -28,18 +28,18 @@ const RootLayout = () => {
   const [isFirstVisit, setIsFirstVisit] = useState(null);
 
   // Check if the app is launched for the first time
-  useEffect(() => {
-    const checkFirstVisit = async () => {
-      try {
-        const hasVisited = await AsyncStorage.getItem("hasVisited");
-        setIsFirstVisit(hasVisited === null);
-      } catch (error) {
-        console.error("Error reading AsyncStorage:", error);
-        setIsFirstVisit(false);
-      }
-    };
-    checkFirstVisit();
-  }, []);
+  // useEffect(() => {
+  //   const checkFirstVisit = async () => {
+  //     try {
+  //       const hasVisited = await AsyncStorage.getItem("hasVisited");
+  //       setIsFirstVisit(hasVisited === null);
+  //     } catch (error) {
+  //       console.error("Error reading AsyncStorage:", error);
+  //       setIsFirstVisit(false);
+  //     }
+  //   };
+  //   checkFirstVisit();
+  // }, []);
 
   // Handle completion of Onboarding
   const resetOnboarding = async () => {
@@ -78,7 +78,7 @@ const RootLayout = () => {
     );
   }
 
-  if (isFirstVisit && !animationCompleted) {
+  if (isFirstVisit && animationCompleted) {
     // If it's the first visit and animation not completed, show Onboarding
     return <Onboarding onFinish={handleOnboardingFinish} />;
   }

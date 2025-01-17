@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -8,6 +8,8 @@ import { useRouter } from "expo-router";
 import { Keyboard } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 
+import { createUser } from "../../lib/appwrite"
+
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -15,9 +17,18 @@ const Register = () => {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const router = useRouter();
 
-  const handleLogin = () => {
-    console.log("Login button pressed");
-    router.push("./profile");
+  const handleSignUp = () => {
+    console.log("SignUp button pressed");
+
+    try {
+      createUser(username, email, password);
+
+      router.push("/(auth)/login");
+    } catch (error) {
+      console.error("Failed to create user", error);
+      Alert.alert("Error registering user", error.message);
+    }
+
   };
 
   const handleGoogleOAuth = () => {
@@ -148,7 +159,7 @@ const Register = () => {
             Forgot Your Password?
           </Text>
           <TouchableOpacity
-            onPress={handleLogin}
+            onPress={handleSignUp}
             className="bg-primary py-3 rounded-lg mb-4 mt-4"
           >
             <Text className="text-center text-white text-lg font-karla-bold">
