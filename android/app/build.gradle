@@ -88,9 +88,6 @@ android {
 
     namespace 'com.damadd.DashboardITB'
     defaultConfig {
-        ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
-        }
         applicationId 'com.damadd.DashboardITB'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -152,7 +149,7 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-    implementation("com.github.Dimezis:BlurView:2.0.3")
+    implementation("com.github.Dimezis:BlurView:version-2.0.4")
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { Route } from "expo-router";
 
 const onboardingSteps = [
   {
@@ -27,19 +29,31 @@ const onboardingSteps = [
   },
 ];
 
-const Onboarding = ({ onFinish }) => {
+type OnboardingParams = {
+  onFinish?: string;
+};
+
+const Onboarding: React.FC<{ onFinish?: () => void }> = ({ onFinish }) => {
   const [currentStep, setCurrentStep] = useState(0);
+
+  const router = useRouter();
 
   const handleNext = () => {
     if (currentStep < onboardingSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      onFinish();
+      if (onFinish) {
+        onFinish();
+      }
+      router.replace("/(auth)/login");
     }
   };
 
   const handleSkip = () => {
-    onFinish();
+    if (onFinish) {
+      onFinish();
+    }
+    router.replace("/(auth)/login");
   };
 
   const { title, highlight, description, image } = onboardingSteps[currentStep];
