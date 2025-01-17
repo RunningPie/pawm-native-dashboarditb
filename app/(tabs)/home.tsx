@@ -179,14 +179,17 @@ export default function Home() {
   console.log("Current logged in user: ", user);
 
   const { data: courses, isLoading: isLoadingCourses, refetch: refetchCourses } = useAppwrite(getAllContent, "courses");
-  // const { data: quizzes, refetchQuizzes } = useAppwrite(getAllContent, "quizzes");
+  const { data: quizzes, isLoading: isLoadingQuizzes, refetch: refetchQuizzes } = useAppwrite(getAllContent, "quizzes");
+  const { data: tests, isLoading: isLoadingTests, refetch: refetchTests } = useAppwrite(getAllContent, "tests");
   // const { data: tests, refetchTests } = useAppwrite(getAllContent, "tests");
 
-  console.log("Courses: ", courses);
+  // console.log("Courses: ", courses);
   // console.log("Quizzes: ", quizzes);
-  // console.log("Tests: ", tests);
+  console.log("Tests: ", tests);
 
   const [popularCourses, setPopularCourses] = useState([]);
+  const [ongoingQuizzes, setOngoingQuizzes] = useState([]);
+  const [ongoingTests, setOngoingTests] = useState([]);
 
   const router = useRouter();
   const [showDrawer, setShowDrawer] = useState(false);
@@ -219,7 +222,7 @@ export default function Home() {
   // Map the queried courses to match the frontend structure
   useEffect(() => {
     if (courses && !isLoadingCourses) {
-      console.log("Courses before mapping:", courses);
+      // console.log("Courses before mapping:", courses);
       const mappedCourses = courses.map((course) => ({
         id: course.$id, // Use the $id from the database response
         term: course.semester, // Map the semester to 'term'
@@ -230,10 +233,42 @@ export default function Home() {
         image: { uri: course.cover_image }, // Use the cover image URL from the database
         progress: 0
       }));
-      console.log("Mapped courses:", mappedCourses);
+      // console.log("Mapped courses:", mappedCourses);
       setPopularCourses(mappedCourses);
     }
   }, [courses, isLoadingCourses]);
+  
+  // Map the queried quizzes to match the frontend structure
+  useEffect(() => {
+    if (quizzes && !isLoadingQuizzes) {
+      // console.log("Courses before mapping:", courses);
+      const mappedQuizzes = quizzes.map((quiz) => ({
+        id: quiz.$id, // Use the $id from the database response
+        course: quiz.parent_course.course_title,
+        title: quiz.test_title,
+        length: quiz.test_duration,
+        image: { uri: quiz.parent_course.cover_image }, // Use the cover image URL from the database
+      }));
+      // console.log("Mapped quizzes:", mappedQuizzes);
+      setOngoingQuizzes(mappedQuizzes);
+    }
+  }, [quizzes, isLoadingQuizzes]);
+  
+  // Map the queried quizzes to match the frontend structure
+  useEffect(() => {
+    if (tests && !isLoadingTests) {
+      // console.log("Courses before mapping:", courses);
+      const mappedTests = tests.map((test) => ({
+        id: test.$id, // Use the $id from the database response
+        course: test.parent_course.course_title,
+        title: test.test_title,
+        length: test.test_duration,
+        image: { uri: test.parent_course.cover_image }, // Use the cover image URL from the database
+      }));
+      // console.log("Mapped tests:", mappedTests);
+      setOngoingTests(mappedTests);
+    }
+  }, [tests, isLoadingTests]);
 
   const drawerContent = (
     <>
@@ -254,78 +289,79 @@ export default function Home() {
     </>
   );
 
-  const [ongoingQuizzes] = useState([
-    {
-      id: "1",
-      course: "Berpikir Komputasional",
-      title: "Basic Theoretical Python",
-      length: 10,
-      image: require("../../assets/images/computational-thinking.png"),
-    },
-    {
-      id: "2",
-      course: "Matematika I",
-      title: "Basic Theoretical Matrix",
-      length: 20,
-      image: require("../../assets/images/math.png"),
-    },
-    {
-      id: "3",
-      course: "Kimia I",
-      title: "Basic Theoretical Chemistry",
-      length: 20,
-      image: require("../../assets/images/kimia.png"),
-    },
-    {
-      id: "4",
-      course: "Fisika I",
-      title: "Basic Theoretical Physics",
-      length: 20,
-      image: require("../../assets/images/fisika.png"),
-    },
-  ]);
+  // const [ongoingQuizzes] = useState([
+  //   {
+  //     id: "1",
+  //     course: "Berpikir Komputasional",
+  //     title: "Basic Theoretical Python",
+  //     length: 10,
+  //     image: require("../../assets/images/computational-thinking.png"),
+  //   },
+  //   {
+  //     id: "2",
+  //     course: "Matematika I",
+  //     title: "Basic Theoretical Matrix",
+  //     length: 20,
+  //     image: require("../../assets/images/math.png"),
+  //   },
+  //   {
+  //     id: "3",
+  //     course: "Kimia I",
+  //     title: "Basic Theoretical Chemistry",
+  //     length: 20,
+  //     image: require("../../assets/images/kimia.png"),
+  //   },
+  //   {
+  //     id: "4",
+  //     course: "Fisika I",
+  //     title: "Basic Theoretical Physics",
+  //     length: 20,
+  //     image: require("../../assets/images/fisika.png"),
+  //   },
+  // ]);
 
-  const [ongoingTests] = useState([
-    {
-      id: "1",
-      course: "Berpikir Komputasional",
-      title: "Test 1",
-      length: 10,
-      image: require("../../assets/images/computational-thinking.png"),
-    },
-    {
-      id: "2",
-      course: "Matematika I",
-      title: "Test 1",
-      length: 20,
-      image: require("../../assets/images/math.png"),
-    },
-    {
-      id: "3",
-      course: "Kimia I",
-      title: "Test 1",
-      length: 20,
-      image: require("../../assets/images/kimia.png"),
-    },
-    {
-      id: "4",
-      course: "Fisika I",
-      title: "Test 1",
-      length: 20,
-      image: require("../../assets/images/fisika.png"),
-    },
-  ]);
+  // const [ongoingTests] = useState([
+  //   {
+  //     id: "1",
+  //     course: "Berpikir Komputasional",
+  //     title: "Test 1",
+  //     length: 10,
+  //     image: require("../../assets/images/computational-thinking.png"),
+  //   },
+  //   {
+  //     id: "2",
+  //     course: "Matematika I",
+  //     title: "Test 1",
+  //     length: 20,
+  //     image: require("../../assets/images/math.png"),
+  //   },
+  //   {
+  //     id: "3",
+  //     course: "Kimia I",
+  //     title: "Test 1",
+  //     length: 20,
+  //     image: require("../../assets/images/kimia.png"),
+  //   },
+  //   {
+  //     id: "4",
+  //     course: "Fisika I",
+  //     title: "Test 1",
+  //     length: 20,
+  //     image: require("../../assets/images/fisika.png"),
+  //   },
+  // ]);
 
   return (
     <View className="flex-1">
       <Header
         showDrawer={showDrawer}
         setShowDrawer={setShowDrawer}
-        userName={user.nickname ? user.nickname : user.email}
-        // userName="Thalita"
+        userName={user.username ? user.username : user.email}
         userRole={user.faculty ? user.faculty : "Student"}
+        userImage={{uri: user.profile_picture}}
+        // userName="Thalita"
         // userRole="STEI ITB"
-        userImage={require("../../assets/images/ProfilePic.png")}
+        // userImage={require("../../assets/images/ProfilePic.png")}
         drawerContent={drawerContent}
       />
 
@@ -338,7 +374,7 @@ export default function Home() {
             style={styles.header}
           >
             <Text className="text-2xl font-karla-bold text-white px-6">
-              Welcome Back, {user.nickname ? user.nickname : user.email}!
+              Welcome Back, {user.username ? user.username : user.email}!
               {/* Welcome Back, Thalita! */}
             </Text>
             <Text className="text-sm font-karla-regular text-white px-6 pr-32">
