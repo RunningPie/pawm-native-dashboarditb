@@ -20,9 +20,16 @@ import { QuestionMarkCircleIcon } from "react-native-heroicons/outline";
 import { TimerReset } from "lucide-react-native";
 import { courses } from "~/app/data/mockdata";
 
+import { handleUpdateScore } from "~/lib/appwrite";
+import { useGlobalContext } from "~/context/GlobalProvider";
+
 const QuizQuestionPage = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+
+  const { user, isLoggedIn } = useGlobalContext();
+
+  console.log("Current logged in user: ", user);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null); // For multiple-choice
@@ -98,28 +105,70 @@ const QuizQuestionPage = () => {
     }
   }, [currentQuestion, userAnswers]);
 
-  const handleSubmit = () => {
-    // Supposed to be field validation but its inconsistent e.g. asks for confirmation despite fields being filled
-    {
-      /*
-    if (Object.keys(userAnswers).length !== quiz.questions.length) {
-      Alert.alert(
-        "Incomplete",
-        "Please answer all questions before submitting."
-      );
-      return;
-    }
-      */
-    }
-
-    // Process the answers (e.g., send them to a server, calculate the score, etc.)
+  const handleSubmit = async () => {
+    if (!quiz) return;
+  
+    // Calculate the score
+    let score = 0;
+  
+    quiz.questions.forEach((question) => {
+      const userAnswer = userAnswers[question.id];
+  
+      if (question.type === "multiple") {
+        // Check if the selected answer matches the correct option index
+        if (userAnswer === question.correctOptionIndex) {
+          score += 1; // Add points for correct multiple-choice answers
+        }
+      } else if (question.type === "essay") {
+        // Perform a strict comparison for essay answers
+        if (
+          typeof userAnswer === "string" &&
+          userAnswer.trim() === question.answer.trim()
+        ) {
+          score += 1; // Add points for correct essay answers
+        }
+      }
+    });
+  
+    // Optionally calculate a percentage score
+    const totalQuestions = quiz.questions.length;
+    const percentageScore = (score / totalQuestions) * 100;
+  
+    // Update related course progress (example logic, adjust as needed)
     const relatedCourse = courses.find((c) => c.id === quiz.courseId);
     if (relatedCourse) {
       relatedCourse.progress = Math.min(relatedCourse.progress + 10, 100);
     }
 
+    try {
+      // Frontend processing logic
+      const userScore = percentageScore; // Assume you calculate the score here
+      const documentId = id; // Retrieve the document ID from state or props
+  
+      console.log("User score calculated:", userScore);
+  
+      // Backend update logic
+      await handleUpdateScore(documentId, userScore);
+      console.log("Score successfully updated in backend!");
+  
+      // Optional: Show success message to user
+      alert("Your score has been submitted successfully!");
+    } catch (error) {
+      console.error("Error during submission:", error.message);
+      // Optional: Show error message to user
+      alert("Failed to submit your score. Please try again.");
+    }
+  
+    // Display the score
+    Alert.alert(
+      "Quiz Completed",
+      `Your score is ${score}/${totalQuestions} (${percentageScore.toFixed(2)}%)`
+    );
+  
+    // Navigate to the home page or another relevant page
     router.push("/(tabs)/home");
   };
+  
 
   const renderQuestion = () => {
     if (!currentQuestion) {
@@ -196,9 +245,9 @@ const QuizQuestionPage = () => {
       <ScrollView className="flex-1 bg-white">
         <View className="bg-primary-dark w-full pt-40 bottom-6">
           <Header
-            userName="Thalita Zahra Sutejo"
-            userRole="STEI-K ITB"
-            userImage={require("../../../../../assets/images/ProfilePic.png")}
+            userName={user.username ? user.username : user.email}
+            userRole={user.faculty ? user.faculty : "Student"}
+            userImage={{uri: user.profile_picture}}
             style={"pt-12"}
           />
         </View>

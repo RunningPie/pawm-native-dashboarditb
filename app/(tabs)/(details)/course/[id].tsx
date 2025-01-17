@@ -116,7 +116,7 @@ export default function CourseDetail() {
                     value={quizItem.progress}
                     className="w-full h-2 bg-orange-500/20"
                   />
-                  <Text className="text-orange-500 text-lg mt-1">{`${course.progress}%`}</Text>
+                  <Text className="text-orange-500 text-lg mt-1">{`${quizItem.progress}%`}</Text>
                   <View className="flex-row justify-end gap-2">
                     <TimerReset size={18} color="white" className="mt-2" />
                     <Text className="font-karla-regular text-white text-right ">

@@ -54,8 +54,8 @@ export interface Course {
 
 export const quizzes: Quiz[] = [
   {
-    id: "q1",
-    courseId: "1",
+    id: "6787828e00372868f3aa",
+    courseId: "678736200034f7738e81",
     title: "Basic Theoretical Python",
     startDate: "Kamis, 16 Januari 2025",
     endDate: "Kamis, 23 Januari 2025",
@@ -64,7 +64,7 @@ export const quizzes: Quiz[] = [
     image: require("../../assets/images/computational-thinking.png"),
     questions: [
       {
-        id: "q1-1",
+        id: "6787828e00372868f3aa-1",
         type: "multiple",
         question:
           "Apa hasil dari sebuah algoritma pencarian biner jika elemen tidak ditemukan?",
@@ -77,14 +77,14 @@ export const quizzes: Quiz[] = [
         correctOptionIndex: 2,
       },
       {
-        id: "q1-2",
+        id: "6787828e00372868f3aa-2",
         type: "multiple",
         question: "Mana yang bukan tipe data dalam Python?",
         options: ["Integer", "String", "Loop", "Boolean"],
         correctOptionIndex: 2,
       },
       {
-        id: "q1-3",
+        id: "6787828e00372868f3aa-3",
         type: "multiple",
         question: "Apa yang dimaksud dengan looping dalam pemrograman?",
         options: [
@@ -96,14 +96,14 @@ export const quizzes: Quiz[] = [
         correctOptionIndex: 0,
       },
       {
-        id: "q1-4",
+        id: "6787828e00372868f3aa-4",
         type: "essay",
         question: "Sebutkan dua manfaat dari algoritma sorting.",
         answer:
           "Manfaat algoritma sorting: 1. Memudahkan pencarian data, 2. Mengoptimalkan penggunaan memori",
       },
       {
-        id: "q1-5",
+        id: "6787828e00372868f3aa-5",
         type: "essay",
         question: "Jelaskan fungsi logika AND dalam pemrograman.",
         answer:
@@ -112,8 +112,8 @@ export const quizzes: Quiz[] = [
     ],
   },
   {
-    id: "q2",
-    courseId: "2",
+    id: "678a4720002906d76ec0",
+    courseId: "678736530036ec3c4350",
     title: "Basic Theoretical Math",
     startDate: "Senin, 01 Februari 2025",
     endDate: "Senin, 08 Februari 2025",
@@ -122,7 +122,7 @@ export const quizzes: Quiz[] = [
     image: require("../../assets/images/math.png"),
     questions: [
       {
-        id: "q2-1",
+        id: "678a4720002906d76ec0-1",
         type: "multiple",
         question: "Apa yang dimaksud dengan sebuah matriks?",
         options: [
@@ -134,7 +134,7 @@ export const quizzes: Quiz[] = [
         correctOptionIndex: 0,
       },
       {
-        id: "q2-2",
+        id: "678a4720002906d76ec0-2",
         type: "multiple",
         question: "Jika Anda menambahkan dua matriks, apa yang harus sama?",
         options: [
@@ -146,7 +146,7 @@ export const quizzes: Quiz[] = [
         correctOptionIndex: 1,
       },
       {
-        id: "q2-3",
+        id: "678a4720002906d76ec0-3",
         type: "multiple",
         question: "Mana yang merupakan matriks identitas?",
         options: [
@@ -158,7 +158,7 @@ export const quizzes: Quiz[] = [
         correctOptionIndex: 1,
       },
       {
-        id: "q2-4",
+        id: "678a4720002906d76ec0-4",
         type: "essay",
         question:
           "Sebutkan tiga contoh aplikasi matriks dalam kehidupan nyata.",
@@ -166,7 +166,7 @@ export const quizzes: Quiz[] = [
           "Contoh aplikasi matriks: 1. Grafik Komputer, 2. Kriptografi, 3. Pemrosesan Citra",
       },
       {
-        id: "q2-5",
+        id: "678a4720002906d76ec0-5",
         type: "essay",
         question:
           "Jelaskan apa yang terjadi ketika sebuah matriks dikalikan dengan matriks identitas.",
@@ -287,7 +287,7 @@ export const quizzes: Quiz[] = [
 export const tests: Test[] = [
   {
     id: "t1",
-    courseId: "1",
+    courseId: "678736200034f7738e81",
     title: "Test 1: Berpikir Komputasional",
     startDate: "Kamis, 30 Januari 2025",
     endDate: "Kamis, 30 Januari 2025",
@@ -295,7 +295,7 @@ export const tests: Test[] = [
   },
   {
     id: "t2",
-    courseId: "2",
+    courseId: "678736530036ec3c4350",
     title: "Test 1: Matematika I",
     startDate: "Jumat, 31 Januari 2025",
     endDate: "Jumat, 31 Januari 2025",

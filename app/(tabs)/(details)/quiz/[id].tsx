@@ -15,10 +15,16 @@ import { useRouter } from "expo-router";
 import { courses } from "~/app/data/mockdata";
 import Progress from "~/app/components/ui/progress";
 import { TimerReset } from "lucide-react-native";
+import { useGlobalContext } from "~/context/GlobalProvider";
+import useAppwrite from "~/lib/useAppwrite";
 
 export default function QuizDetail() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+
+  const { user, isLoggedIn } = useGlobalContext();
+
+  console.log("Current logged in user: ", user);
 
   const course = courses.find((c) => c.id === id);
 
@@ -38,9 +44,9 @@ export default function QuizDetail() {
   return (
     <LinearGradient colors={["#0A2D41", "#2E5C76"]} className="flex-1">
       <Header
-        userName="Thalita Zahra Sutejo"
-        userRole="STEI-K ITB"
-        userImage={require("../../../../assets/images/ProfilePic.png")}
+        userName={user.username ? user.username : user.email}
+        userRole={user.faculty ? user.faculty : "Student"}
+        userImage={{uri: user.profile_picture}}
       />
       <View className="flex-row items-center mt-24 px-4">
         <Pressable onPress={() => router.replace("/(tabs)/home")}>

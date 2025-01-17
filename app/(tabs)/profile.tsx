@@ -19,8 +19,14 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Link, useRouter } from "expo-router";
 import React from "react";
+import { useGlobalContext } from "~/context/GlobalProvider";
+import { formatISOToDDMMYYYY } from "~/lib/utils";
 
 const Profile = () => {
+  const { user, isLoggedIn } = useGlobalContext();
+
+  console.log("Current logged in user: ", user);
+
   const router = useRouter();
   return (
     <ScrollView className="">
@@ -35,7 +41,7 @@ const Profile = () => {
         </View>
         <View className="absolute ml-44 z-10 mt-20">
           <Image
-            source={require("../../assets/images/ProfilePic.png")} // Replace with your placeholder image
+            source={{ uri: user.profile_picture }} // Replace with your placeholder image
             className="w-32 h-32 absolute rounded-full z-10 "
           />
           <TouchableOpacity
@@ -49,7 +55,7 @@ const Profile = () => {
         <View className="justify-start mt-4 px-4 bg-white h-full  rounded-t-[40px]">
           <View className="flex-row items-center justify-center">
             <Text className="mt-20 font-karla-bold text-3xl">
-              Thalita Zahra Sutejo
+              {user.username}
             </Text>
           </View>
           <View className="px-4 mt-8">
@@ -96,19 +102,19 @@ const Profile = () => {
             </Text>
             <View className="bg-primary-dark py-4 w-full items-start px-4 rounded-lg mb-2">
               <Text className="text-white font-karla-regular text-center">
-                @thalitazahras
+                @{user.username}
               </Text>
             </View>
             <View className="bg-primary-dark flex-row py-4 w-full items-start px-4 rounded-lg mb-2">
               <CalendarDays size={20} color="white" className="mr-2" />
               <Text className="text-white ml-2 font-karla-regular text-center">
-                16/02/2006
+                {formatISOToDDMMYYYY(user.date_of_birth)}
               </Text>
             </View>
             <View className="bg-primary-dark flex-row py-4 w-full items-start px-4 rounded-lg mb-2">
               <MailIcon size={20} color="white" className="mr-2" />
               <Text className="text-white ml-2 font-karla-regular text-center">
-                thalitazhr1601@gmail.com
+                {user.email}
               </Text>
             </View>
             <View className="bg-primary-dark py-4 w-full items-start px-4 rounded-lg mb-2">
@@ -118,7 +124,7 @@ const Profile = () => {
             </View>
             <View className="bg-primary-dark py-4 w-full items-start px-4 rounded-lg mb-2">
               <Text className="text-white font-karla-regular text-center">
-                Female
+                {user.gender ? user.gender : "Not Available"}
               </Text>
             </View>
             <Text className="text-xl font-karla-bold text-black mb-2 mt-2">
